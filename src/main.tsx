@@ -11,26 +11,31 @@ import './index.css';
 // Importing the Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <App />,
+      children: [
+        {
+          path: '/',
+          element: <HomePage />,
+        },
+        {
+          path: '/agenda',
+          element: <AgendaPage />,
+        },
+        {
+          path: '/keys',
+          element: <KeysPage />,
+        },
+      ],
+    },
+  ],
   {
-    path: '/',
-    element: <App />,
-    children: [
-      {
-        path: '/',
-        element: <HomePage />,
-      },
-      {
-        path: '/agenda',
-        element: <AgendaPage />,
-      },
-      {
-        path: '/keys',
-        element: <KeysPage />,
-      },
-    ],
-  },
-]);
+    basename: import.meta.env.BASE_URL,
+  }
+);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
