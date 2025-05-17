@@ -8,16 +8,16 @@ import { getFirestore } from 'firebase/firestore';
 // import {...} from 'firebase/storage';
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: process.env.FIRESTORE_API_KEY,
-  authDomain: process.env.FIRESTORE_AUTH_DOMAIN,
-  databaseURL: process.env.FIRESTORE_DATABASE_URL,
-  projectId: process.env.FIRESTORE_PROJECT_ID,
-  storageBucket: process.env.FIRESTORE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIRESTORE_MESSAGING_SENDER_ID,
-  appId: process.env.FIRESTORE_APP_ID,
+  apiKey: import.meta.env.VITE_FIRESTORE_API_KEY,
+  authDomain: import.meta.env.VITE_FIRESTORE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIRESTORE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIRESTORE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIRESTORE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIRESTORE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIRESTORE_APP_ID,
 };
 
-const app = initializeApp(Constants.expoConfig.extra.firebaseConfig);
+const app = initializeApp(firebaseConfig);
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
 
