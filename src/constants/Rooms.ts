@@ -1,5 +1,13 @@
 import type { Room } from '../model/Room';
 
+export type Occupation = {
+  hour: string;
+  tables: number;
+  availableTables: number;
+  rate?: number;
+  roomCapacity: number;
+};
+
 export const ROOMS: Room[] = [
   {
     id: 'main',
