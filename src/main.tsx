@@ -10,6 +10,7 @@ import KeysPage from './app/Keys';
 import './index.css';
 // Importing the Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
+import SettingsPage from './app/Settings';
 
 const router = createBrowserRouter(
   [
@@ -28,6 +29,10 @@ const router = createBrowserRouter(
         {
           path: '/keys',
           element: <KeysPage />,
+        },
+        {
+          path: '/settings',
+          element: <SettingsPage />,
         },
       ],
     },
