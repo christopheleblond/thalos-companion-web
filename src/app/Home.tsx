@@ -1,14 +1,4 @@
-import { useEffect, useState } from 'react';
-import type { User } from '../model/User';
-import { userService } from '../services/UserService';
-
 export default function HomePage() {
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-    userService.findAllUsers().then((users) => setUsers(users));
-  }, []);
-
   return (
     <div>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer turpis
