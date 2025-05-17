@@ -22,6 +22,4 @@ const app = initializeApp(firebaseConfig);
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
 
 // Initialize Cloud Firestore and get a reference to the service
-const FirebaseDb = getFirestore(app);
-
-export { FirebaseDb };
+export const FirebaseDb = getFirestore(app);

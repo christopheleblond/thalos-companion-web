@@ -34,10 +34,13 @@ export const userMapper = (json: any): User => {
 };
 
 class MockServerApi implements ApiService {
-  constructor(
-    private activities: Activity[],
-    private rooms: Room[]
-  ) {}
+  private activities: Activity[];
+  private rooms: Room[];
+
+  constructor(activities: Activity[], rooms: Room[]) {
+    this.activities = activities;
+    this.rooms = rooms;
+  }
 
   findUserById(userId: string): Promise<User | null> {
     return fetch(`${baseUrl}/users/${userId}`, { method: 'GET' })
