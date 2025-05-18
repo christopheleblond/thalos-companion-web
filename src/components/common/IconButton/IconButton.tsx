@@ -6,7 +6,7 @@ import './IconButton.css';
 export type Icons = 'settings';
 
 type Props = ButtonProps & {
-  icon: Icons;
+  icon: string;
   color?: string;
   iconSize?: number;
   onClick: () => void;

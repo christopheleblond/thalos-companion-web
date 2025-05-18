@@ -39,7 +39,7 @@ export default function Footer() {
 const styles: React.CSSProperties = {
   display: 'flex',
   padding: 3,
-  minHeight: 60,
+  minHeight: 40,
   width: '100%',
 };
 
