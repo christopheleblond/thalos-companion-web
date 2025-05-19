@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 
-type ViewProps = { style: React.CSSProperties; children?: ReactNode };
+type ViewProps = { style?: React.CSSProperties; children?: ReactNode };
 
 export default function View({ children }: ViewProps) {
   const styles: React.CSSProperties = {
