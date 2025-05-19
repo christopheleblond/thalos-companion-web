@@ -52,15 +52,7 @@ export default function AgendaEventCard({
   return (
     <CustomCard>
       {event.activity ? (
-        <View
-          style={[
-            styles.activity,
-            {
-              backgroundColor: event.activity.style.backgroundColor,
-              alignSelf: 'flex-start',
-            },
-          ]}
-        >
+        <View>
           <span style={styles.activityName}>{event.activity.name}</span>
         </View>
       ) : null}
@@ -88,16 +80,7 @@ export default function AgendaEventCard({
 
       {/* Nom */}
       <View style={styles.title}>
-        <span
-          style={{
-            fontSize:
-              event.title && event.title?.length < 15
-                ? 30
-                : event.title && event?.title?.length < 20
-                  ? 25
-                  : 20,
-          }}
-        >
+        <span>
           {event.title}
         </span>
       </View>
@@ -158,7 +141,7 @@ export default function AgendaEventCard({
             icon="delete"
             color={Colors.red}
             iconSize={32}
-            onClick={() => confirmDeleteEvent(event)}
+            onClick={() => confirmDeleteEvent()}
           />
         </View>
       ) : null}
