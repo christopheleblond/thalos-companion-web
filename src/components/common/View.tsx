@@ -7,5 +7,5 @@ export default function View({ children }: ViewProps) {
     display: 'flex',
     flexDirection: 'column',
   };
-  return <div style={styles}>{children}</div>;
+  return <div style={styles}>{children ?? null}</div>;
 }

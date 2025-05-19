@@ -52,7 +52,7 @@ export default function AgendaEventCard({
   return (
     <CustomCard>
       {event.activity ? (
-        <View>
+        <View style={{}}>
           <span style={styles.activityName}>{event.activity.name}</span>
         </View>
       ) : null}
