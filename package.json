@@ -5,7 +5,7 @@
   "type": "module",
   "homepage": "/thalos-companion-web/",
   "scripts": {
-    "start": "vite",
+    "start": "vite --host",
     "start:mock": "set VITE_API=MOCK_SERVER && vite",
     "mockServer": "npx json-server test-data/mock-data.json",
     "test": "jest",

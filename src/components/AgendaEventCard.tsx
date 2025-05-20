@@ -1,13 +1,17 @@
+import { useNavigate } from 'react-router';
 import { Colors } from '../constants/Colors';
 import { durationToString } from '../constants/Durations';
 import { TOUTE_LA_SALLE } from '../constants/Rooms';
 import type { AgendaEvent } from '../model/AgendaEvent';
 import { printGameDay } from '../utils/Utils';
+import './AgendaEventCard.css';
 import CustomCard from './common/CustomCard';
-import Icon from './common/Icon';
 import IconButton from './common/IconButton/IconButton';
+import Label from './common/Label';
+import Row from './common/Row';
+import Tag from './common/Tag';
+import type { StyleSheet } from './common/Types';
 import View from './common/View';
-
 type Props = {
   event: Partial<AgendaEvent>;
   complete?: boolean;
@@ -23,6 +27,8 @@ export default function AgendaEventCard({
   showButtons,
   onEdit,
 }: Props) {
+  const navigate = useNavigate();
+
   const duration = event.durationInMinutes
     ? durationToString(event.durationInMinutes)
     : null;
@@ -50,11 +56,23 @@ export default function AgendaEventCard({
   };
 
   return (
-    <CustomCard>
+    <CustomCard
+      className="AgendaEventCard"
+      onClick={() => navigate(`/events/${event.id}`)}
+      style={[
+        styles.container,
+        { borderLeftColor: event.activity?.style.backgroundColor },
+      ]}
+    >
       {event.activity ? (
-        <View style={{}}>
-          <span style={styles.activityName}>{event.activity.name}</span>
-        </View>
+        <Row>
+          <Tag
+            color={event.activity.style.backgroundColor}
+            textColor={event.activity.style.color}
+          >
+            <span style={styles.activityName}>{event.activity.name}</span>
+          </Tag>
+        </Row>
       ) : null}
 
       {/* Date  */}
@@ -67,22 +85,24 @@ export default function AgendaEventCard({
       )}
       {/* Heure de début-fin */}
       {event.start ? (
-        <View style={styles.hours}>
-          <Icon icon={'schedule'} color={'gray'} iconSize={20} />
-          <span style={styles.eventHoursText}>{event.start}</span>
-          {duration ? (
-            <span style={styles.eventHoursText}> ({`${duration.label}`})</span>
-          ) : null}
-        </View>
+        <Row style={{ justifyContent: 'center' }}>
+          <Label icon="schedule" color="gray" size={20}>
+            <span style={styles.eventHoursText}>{event.start}</span>
+            {duration ? (
+              <span style={styles.eventHoursText}>
+                {' '}
+                ({`${duration.label}`})
+              </span>
+            ) : null}
+          </Label>
+        </Row>
       ) : (
         <span>?</span>
       )}
 
       {/* Nom */}
       <View style={styles.title}>
-        <span>
-          {event.title}
-        </span>
+        <span>{event.title}</span>
       </View>
 
       {/* Creator */}
@@ -110,23 +130,19 @@ export default function AgendaEventCard({
 
       {/* Salle */}
       {event.room ? (
-        <View style={styles.location}>
-          <View
-            style={{ flexDirection: 'row', paddingLeft: 10, paddingRight: 10 }}
-          >
-            <Icon icon={'location_on'} color={'gray'} iconSize={20} />
+        <Row style={styles.location}>
+          <Label icon="location_on" color="gray" size={20}>
             <span>{event.room.name}</span>
-          </View>
-          <View style={{ flexDirection: 'row' }}>
-            <Icon icon={'table_restaurant'} color={'gray'} iconSize={20} />
+          </Label>
+          <Label icon="table_restaurant" color="gray" size={20}>
             <span>
               :{' '}
               {event.tables !== TOUTE_LA_SALLE
                 ? `${event.tables}`
                 : 'Toute la salle'}
             </span>
-          </View>
-        </View>
+          </Label>
+        </Row>
       ) : null}
 
       {showButtons ? (
@@ -149,16 +165,29 @@ export default function AgendaEventCard({
   );
 }
 
-const styles = {
+const styles: StyleSheet = {
+  container: {
+    borderLeftWidth: '10px',
+  },
   activity: {},
   activityName: {},
-  cardItem: {},
+  cardItem: {
+    paddingTop: '5px',
+    fontSize: '18px',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
   eventDateText: {},
   hours: {},
   eventHoursText: {},
-  title: {},
+  title: {
+    fontSize: '24px',
+  },
   creator: {},
   description: {},
-  location: {},
+  location: {
+    justifyContent: 'flex-end',
+    gap: 20,
+  },
   buttons: {},
 };

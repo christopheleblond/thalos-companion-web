@@ -3,7 +3,9 @@ import AgendaEventCard from '../components/AgendaEventCard';
 import ActivityIndicator from '../components/common/ActivityIndicator';
 import type { SectionListItem } from '../components/common/SectionList';
 import SectionList from '../components/common/SectionList';
+import type { StyleSheet } from '../components/common/Types';
 import View from '../components/common/View';
+import { Colors } from '../constants/Colors';
 import { Months } from '../constants/Months';
 import { AppContext } from '../contexts/AppContext';
 import type { AgendaEvent } from '../model/AgendaEvent';
@@ -66,10 +68,20 @@ export default function HomePage() {
         <SectionList
           sections={sections}
           keyExtractor={(it) => it.id}
-          renderSectionHeader={(it) => <div>{it.title}</div>}
+          renderSectionHeader={(it) => (
+            <span style={styles.month}>{it.title}</span>
+          )}
           renderItem={(it) => <AgendaEventCard event={it} />}
         ></SectionList>
       ) : null}
     </View>
   );
 }
+
+const styles: StyleSheet = {
+  month: {
+    fontSize: 24,
+    color: Colors.gray,
+    fontWeight: 'bold',
+  },
+};

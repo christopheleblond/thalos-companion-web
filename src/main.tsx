@@ -11,6 +11,7 @@ import './index.css';
 // Importing the Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SettingsPage from './app/Settings';
+import EventDetailsPage from './app/events/EventDetails';
 
 const router = createBrowserRouter(
   [
@@ -33,6 +34,15 @@ const router = createBrowserRouter(
         {
           path: '/settings',
           element: <SettingsPage />,
+        },
+        {
+          path: '/events',
+          children: [
+            {
+              path: '/events/:eventId',
+              element: <EventDetailsPage />,
+            },
+          ],
         },
       ],
     },

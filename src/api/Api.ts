@@ -43,8 +43,9 @@ export interface ApiService {
   saveOpenCloseConfiguration: (config: OpenCloseRoom) => Promise<void>;
 }
 
-const apiMode = import.meta.env.VITE_API.trim().toLowerCase()
+const apiMode = import.meta.env.VITE_API || 'firebase';
 
-export const API = apiMode === 'mock_server' ? mockServerApi : firestoreApi;
+export const API =
+  apiMode.trim().toLowerCase() === 'mock_server' ? mockServerApi : firestoreApi;
 
-console.log('API=', API)
+console.log('API=', API);
