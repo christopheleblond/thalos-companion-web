@@ -14,6 +14,7 @@ interface ImportMetaEnv {
   readonly VITE_FIRESTORE_MESSAGING_SENDER_ID: string;
   readonly VITE_FIRESTORE_PROJECT_ID: string;
   readonly VITE_FIRESTORE_STORAGE_BUCKET: string;
+  readonly VITE_API: string;
   // more env variables...
 }
 

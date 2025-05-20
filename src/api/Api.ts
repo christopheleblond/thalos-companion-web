@@ -4,6 +4,7 @@ import type { OpenCloseRoom } from '../model/Room';
 import type { RoomKey } from '../model/RoomKey';
 import type { User } from '../model/User';
 import { firestoreApi } from './FirestoreApi';
+import { mockServerApi } from './MockServerApi';
 
 export interface ApiService {
   findUserById: (userId: string) => Promise<User | null>;
@@ -42,4 +43,8 @@ export interface ApiService {
   saveOpenCloseConfiguration: (config: OpenCloseRoom) => Promise<void>;
 }
 
-export const API = firestoreApi;
+const apiMode = import.meta.env.VITE_API.trim().toLowerCase()
+
+export const API = apiMode === 'mock_server' ? mockServerApi : firestoreApi;
+
+console.log('API=', API)

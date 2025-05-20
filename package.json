@@ -6,6 +6,8 @@
   "homepage": "/thalos-companion-web/",
   "scripts": {
     "start": "vite",
+    "start:mock": "set VITE_API=MOCK_SERVER && vite",
+    "mockServer": "npx json-server test-data/mock-data.json",
     "test": "jest",
     "dev:test": "jest --watch",
     "build": "tsc -b && vite build",
@@ -41,6 +43,7 @@
     "globals": "^16.0.0",
     "husky": "^9.1.7",
     "jest": "^29.7.0",
+    "json-server": "^1.0.0-beta.3",
     "prettier": "3.5.3",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",

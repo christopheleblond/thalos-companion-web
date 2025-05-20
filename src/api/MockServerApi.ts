@@ -10,7 +10,7 @@ import type { User } from '../model/User';
 import { fromActivityId, fromGameDayId, fromRoomId } from '../utils/Utils';
 import type { ApiService } from './Api';
 
-const baseUrl = 'http://192.168.1.51:3000';
+const baseUrl = 'http://localhost:3000';
 
 export const agendaEventMapper = (
   json: any,
@@ -160,10 +160,18 @@ class MockServerApi implements ApiService {
   }
 
   findAllUsers(): Promise<User[]> {
-    return Promise.resolve([]);
+    console.log('findAllUsers()');    
+    return fetch(`${baseUrl}/users`, { method: 'GET'})
+      .then(resp => resp.json())
+      .then((json) =>
+        json.map((it: any) =>
+          userMapper(it)
+        )
+      );
   }
 
   findAllKeys(): Promise<RoomKey[]> {
+    console.log('findAllKeys()');
     return Promise.resolve([]);
   }
 
