@@ -148,8 +148,8 @@ export default function AgendaEventCard({
       {showButtons ? (
         <View style={styles.buttons}>
           <IconButton
-            icon="edit-note"
-            color="gray"
+            icon="edit"
+            color={Colors.white}
             iconSize={32}
             onClick={() => (onEdit ? onEdit() : null)}
           />
@@ -189,5 +189,10 @@ const styles: StyleSheet = {
     justifyContent: 'flex-end',
     gap: 20,
   },
-  buttons: {},
+  buttons: {
+    display: 'flex',
+    gap: 5,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
 };

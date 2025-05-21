@@ -1,10 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
 import AgendaEventCard from '../components/AgendaEventCard';
 import ActivityIndicator from '../components/common/ActivityIndicator';
+import ModalPage, { type ModalAction } from '../components/common/ModalPage';
 import type { SectionListItem } from '../components/common/SectionList';
 import SectionList from '../components/common/SectionList';
 import type { StyleSheet } from '../components/common/Types';
 import View from '../components/common/View';
+import EventForm from '../components/forms/EventForm';
 import { Colors } from '../constants/Colors';
 import { Months } from '../constants/Months';
 import { AppContext } from '../contexts/AppContext';
@@ -18,6 +21,8 @@ export default function HomePage() {
   const [sections, setSections] = useState<SectionListItem<AgendaEvent>[]>([]);
   const [loading, setLoading] = useState(false);
   const needARefresh = appContext.refreshs['home.events'];
+  const [modalShow, setModalShow] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     settingsService
@@ -61,18 +66,51 @@ export default function HomePage() {
       });
   }, [needARefresh]);
 
+  const ACTIONS: ModalAction[] = [
+    {
+      name: 'cancel',
+      label: 'Annuler',
+      disabled: loading,
+      color: 'gray',
+      onClick: () => {
+        setModalShow(false);
+      },
+    },
+    {
+      name: 'save',
+      label: 'Enregistrer',
+      disabled: loading,
+      onClick: () => {
+        console.log('Save');
+      },
+    },
+  ];
+
   return (
     <View>
+      <ModalPage
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        options={{
+          title: 'Créer un évènement',
+          actions: ACTIONS,
+        }}
+      >
+        <EventForm />
+      </ModalPage>
       {loading ? <ActivityIndicator /> : null}
       {!loading ? (
-        <SectionList
-          sections={sections}
-          keyExtractor={(it) => it.id}
-          renderSectionHeader={(it) => (
-            <span style={styles.month}>{it.title}</span>
-          )}
-          renderItem={(it) => <AgendaEventCard event={it} />}
-        ></SectionList>
+        <>
+          <Button onClick={() => setModalShow(true)}>+</Button>
+          <SectionList
+            sections={sections}
+            keyExtractor={(it) => it.id}
+            renderSectionHeader={(it) => (
+              <span style={styles.month}>{it.title}</span>
+            )}
+            renderItem={(it) => <AgendaEventCard event={it} />}
+          ></SectionList>
+        </>
       ) : null}
     </View>
   );

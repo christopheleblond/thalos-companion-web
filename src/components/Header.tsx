@@ -11,7 +11,7 @@ export default function Header() {
       <Navbar.Brand href="/" style={styles.brand}>
         <img
           alt="Logo"
-          src="icon100.png"
+          src={'/thalos-companion-web/icon100.png'}
           width="30"
           height="30"
           className="d-inline-block align-top"
