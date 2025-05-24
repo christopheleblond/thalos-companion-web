@@ -44,6 +44,8 @@ export const Validators = {
   },
 
   dateIsPassed: (date: Date) => {
-    return !!date && date.getTime() < Date.now();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return !!date && date.getTime() < yesterday.getTime();
   },
 };

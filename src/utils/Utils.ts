@@ -6,12 +6,16 @@ import type { AgendaEvent } from '../model/AgendaEvent';
 import type { GameDay } from '../model/GameDay';
 import type { Room } from '../model/Room';
 
-export function isEmpty(value: string | null): boolean {
-  return !value || value.trim() === '';
+export function isEmpty(value: string | null, emptyValues = ['']): boolean {
+  return !value || emptyValues.filter((v) => value.trim() === v).length > 0;
 }
 
 export function isNotEmpty(value: string | null): boolean {
   return !isEmpty(value);
+}
+
+export function isZero(value: number | undefined | null): boolean {
+  return !value || value === null || isNaN(value) || value === 0;
 }
 
 export function fromActivityId(

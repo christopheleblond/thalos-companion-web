@@ -11,6 +11,7 @@ export type ModalAction = {
 
 type ModalPageOptions = {
   title?: string;
+  fullscreen?: boolean;
   actions?: ModalAction[];
 };
 
