@@ -67,21 +67,27 @@ function validateForm(formData: FormData): ValidationErrors {
 }
 
 export default function EventFormModal({
+  event,
   onSuccess,
   onCancel,
   ...props
 }: Props) {
-  const emptyForm = () => ({
-    id: undefined,
-    title: HYPHEN_EMPTY_OPTION,
-    dayId: HYPHEN_EMPTY_OPTION,
-    start: HYPHEN_EMPTY_OPTION,
-    durationInMinutes: JUSQUA_LA_FERMETURE.valueInMinutes,
-    roomId: HYPHEN_EMPTY_OPTION,
-    activityId: HYPHEN_EMPTY_OPTION,
-    tables: TOUTE_LA_SALLE,
-    description: '',
-  });
+  const emptyForm = () =>
+    ({
+      id: undefined,
+      title: event ? event.title : EMPTY_OPTION,
+      dayId: event ? event.day.id : HYPHEN_EMPTY_OPTION,
+      start: event ? event.start : HYPHEN_EMPTY_OPTION,
+      durationInMinutes: event
+        ? event.durationInMinutes
+        : JUSQUA_LA_FERMETURE.valueInMinutes,
+      roomId: event && event.room ? event.room?.id : HYPHEN_EMPTY_OPTION,
+      activityId:
+        event && event.activity ? event.activity?.id : HYPHEN_EMPTY_OPTION,
+      tables: event && event.tables ? event.tables : TOUTE_LA_SALLE,
+      description: event ? event.description : '',
+      ...event,
+    }) satisfies FormData;
 
   const [formData, setFormData] = useState<FormData>(emptyForm());
 
@@ -120,6 +126,7 @@ export default function EventFormModal({
     if (formState.submitted) {
       setErrors(validateForm(formData));
     }
+    console.log('Form Data', formData);
   }, [formData, formState.submitted]);
 
   const ACTIONS: ModalAction[] = [
@@ -159,13 +166,16 @@ export default function EventFormModal({
         </View>
       ) : null}
       {!saving ? (
-        <EventForm
-          formData={formData}
-          errors={errors}
-          state={formState}
-          onChange={setFormData}
-          disabled={saving}
-        />
+        <>
+          <span>{JSON.stringify(event)}</span>
+          <EventForm
+            formData={formData}
+            errors={errors}
+            state={formState}
+            onChange={setFormData}
+            disabled={saving}
+          />
+        </>
       ) : null}
     </ModalPage>
   );

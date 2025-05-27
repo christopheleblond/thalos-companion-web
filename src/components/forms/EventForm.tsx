@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { ACTIVITIES } from '../../constants/Activities';
 import { Colors } from '../../constants/Colors';
-import { Durations, JUSQUA_LA_FERMETURE } from '../../constants/Durations';
+import { Durations } from '../../constants/Durations';
 import { ROOMS, TABLES, TOUTE_LA_SALLE } from '../../constants/Rooms';
 import { calendarService } from '../../services/CalendarService';
 import { hasError, type CustomFormProps } from '../../utils/FormUtils';
@@ -10,7 +9,6 @@ import { printGameDay } from '../../utils/Utils';
 import type { StyleSheet } from '../common/Types';
 import type { FormData } from '../modals/EventFormModal';
 
-const EMPTY_OPTION = '';
 type Event = { target: { value: string } };
 
 export default function EventForm({
@@ -18,32 +16,14 @@ export default function EventForm({
   state,
   onChange,
   errors,
-  ...props
+  formData,
 }: CustomFormProps<FormData>) {
   const days = calendarService.buildDaysFromDate(new Date(), 60);
   const hours = calendarService.hours();
   const durations = Durations;
 
-  const [formData, setFormData] = useState<FormData>({
-    id: undefined,
-    title: EMPTY_OPTION,
-    dayId: EMPTY_OPTION,
-    start: EMPTY_OPTION,
-    durationInMinutes: JUSQUA_LA_FERMETURE.valueInMinutes,
-    roomId: EMPTY_OPTION,
-    activityId: EMPTY_OPTION,
-    tables: TOUTE_LA_SALLE,
-    description: EMPTY_OPTION,
-  });
-
   const updateForm = (field: string, event: Event) => {
-    setFormData((prev) => {
-      const newData = { ...prev, [field]: event.target.value };
-      if (onChange) {
-        onChange(newData);
-      }
-      return newData;
-    });
+    onChange({ ...formData, [field]: event.target.value });
   };
 
   return (
@@ -67,7 +47,7 @@ export default function EventForm({
           hasError(errors, 'nameIsHigher')) ? (
           <span style={styles.fieldError}>
             Le nom doit être entre 3 et 40 caractères (saisie{' '}
-            {props.formData.title?.length} car.)
+            {formData.title?.length} car.)
           </span>
         ) : null}
         {state?.submitted && hasError(errors, 'nameIsInvalid') ? (
