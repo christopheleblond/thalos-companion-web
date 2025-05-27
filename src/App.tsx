@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import './App.css';
+import Alerts from './components/common/Alerts';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import {
+  AlertContext,
+  type Alert,
+  type AlertContextProps,
+} from './contexts/AlertsContext';
 import { AppContext, type AppContextProps } from './contexts/AppContext';
 import type { User } from './model/User';
 
@@ -32,30 +38,49 @@ function App() {
     },
   });
 
+  const [alertContext, setAlertContext] = useState<AlertContextProps>({
+    alert: (a: Alert) => {
+      setAlertContext((prev) => ({ ...prev, currentAlert: a }));
+    },
+    dialog: (title, message, actions) => {
+      const a: Alert = {
+        title,
+        message,
+        actions,
+      };
+      setAlertContext((prev) => ({ ...prev, currentAlert: a }));
+    },
+  });
+
   useEffect(() => {
-    window.addEventListener('resize', () => {
+    const resizeHandler = () => {
       setSize(window.innerHeight - headerHeight - footerHeight);
-      console.log('Size: ', size);
-    });
-    return window.removeEventListener('resize', () => {});
+    };
+    window.addEventListener('resize', resizeHandler);
+    return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
   return (
     <>
       <AppContext.Provider value={appContext}>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            maxWidth: '1280px',
-          }}
-        >
-          <Header />
-          <div style={{ height: size, overflowY: 'scroll' }}>
-            <Outlet />
+        <AlertContext.Provider value={alertContext}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              maxWidth: '1280px',
+            }}
+          >
+            <Header />
+
+            <Alerts />
+
+            <div style={{ height: size, overflowY: 'scroll' }}>
+              <Outlet />
+            </div>
+            <Footer />
           </div>
-          <Footer />
-        </div>
+        </AlertContext.Provider>
       </AppContext.Provider>
     </>
   );

@@ -1,8 +1,11 @@
+import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { Colors } from '../constants/Colors';
 import { durationToString } from '../constants/Durations';
 import { TOUTE_LA_SALLE } from '../constants/Rooms';
+import { AlertActions, AlertContext } from '../contexts/AlertsContext';
 import type { AgendaEvent } from '../model/AgendaEvent';
+import { agendaService } from '../services/AgendaService';
 import { printGameDay } from '../utils/Utils';
 import './AgendaEventCard.css';
 import CustomCard from './common/CustomCard';
@@ -26,6 +29,7 @@ export default function AgendaEventCard({
   complete,
   showButtons,
   onEdit,
+  onDelete,
 }: Props) {
   const navigate = useNavigate();
 
@@ -33,26 +37,25 @@ export default function AgendaEventCard({
     ? durationToString(event.durationInMinutes)
     : null;
 
+  const Alerts = useContext(AlertContext);
+
   const confirmDeleteEvent = () => {
-    /*Alert.alert(`Supprimer l'évènement ${event.title} ?`, '', [
-      {
-        text: 'Annuler',
-        onPress: () => {},
-        style: 'cancel',
-      },
-      {
-        text: 'Supprimer',
-        onPress: () => {
-          setLoading(true);
-          agendaService.deleteEvent(event.id!).then(() => {
-            if (rest.onDelete) {
-              rest.onDelete();
-            }
-            setLoading(false);
-          });
-        },
-      },
-    ]);*/
+    Alerts.dialog(
+      'Supprimer un évènement',
+      `Supprimer l'évènement ${event.title} ?`,
+      [
+        AlertActions.CANCEL(),
+        AlertActions.OK(
+          () =>
+            agendaService.deleteEvent(event.id!).then(() => {
+              if (onDelete) {
+                onDelete();
+              }
+            }),
+          'Supprimer'
+        ),
+      ]
+    );
   };
 
   return (

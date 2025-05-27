@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import AgendaEventCard from '../../components/AgendaEventCard';
 import type { AgendaEvent } from '../../model/AgendaEvent';
 import { agendaService } from '../../services/AgendaService';
@@ -8,6 +8,11 @@ export default function EventDetailsPage() {
   const { eventId } = useParams();
   const [event, setEvent] = useState<AgendaEvent | undefined>(undefined);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const onDeleteEvent = () => {
+    navigate('/');
+  };
 
   useEffect(() => {
     if (eventId === undefined) {
@@ -30,7 +35,12 @@ export default function EventDetailsPage() {
   return (
     <>
       {event && !loading ? (
-        <AgendaEventCard event={event} complete={true} showButtons={true} />
+        <AgendaEventCard
+          event={event}
+          complete={true}
+          showButtons={true}
+          onDelete={onDeleteEvent}
+        />
       ) : null}
     </>
   );
