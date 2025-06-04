@@ -1,10 +1,13 @@
+import { useContext, useState } from 'react';
 import { Navbar } from 'react-bootstrap';
-import { useNavigate } from 'react-router';
 import { Colors } from '../constants/Colors';
+import { AppContext } from '../contexts/AppContext';
 import IconButton from './common/IconButton/IconButton';
+import SettingsFormModal from './modals/SettingsFormModal';
 
 export default function Header() {
-  const navigate = useNavigate();
+  const appContext = useContext(AppContext);
+  const [settingsModalVisible, setSettingsModalVisible] = useState(false);
 
   return (
     <Navbar style={styles.navbar} className="justify-content-between">
@@ -23,8 +26,21 @@ export default function Header() {
         icon="settings"
         color={Colors.white}
         iconSize={40}
-        onClick={() => navigate('/settings')}
+        onClick={() => setSettingsModalVisible(true)}
       />
+
+      {
+        <SettingsFormModal
+          show={settingsModalVisible}
+          onHide={() => setSettingsModalVisible(false)}
+          onCancel={() => setSettingsModalVisible(false)}
+          onSuccess={() => {
+            appContext.refresh(`home.events`);
+            appContext.refresh(`agenda`);
+            setSettingsModalVisible(false);
+          }}
+        />
+      }
     </Navbar>
   );
 }
