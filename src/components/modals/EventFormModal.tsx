@@ -67,6 +67,7 @@ function validateForm(formData: FormData): ValidationErrors {
 }
 
 export default function EventFormModal({
+  dayId,
   event,
   onSuccess,
   onCancel,
@@ -76,7 +77,7 @@ export default function EventFormModal({
     ({
       id: undefined,
       title: event ? event.title : EMPTY_OPTION,
-      dayId: event ? event.day.id : HYPHEN_EMPTY_OPTION,
+      dayId: event ? event.day.id : (dayId ?? HYPHEN_EMPTY_OPTION),
       start: event ? event.start : HYPHEN_EMPTY_OPTION,
       durationInMinutes: event
         ? event.durationInMinutes
@@ -147,7 +148,9 @@ export default function EventFormModal({
       disabled: saving,
       onClick: () => {
         setFormState({ ...formState, submitted: true });
-        if (isFormValid(errors)) {
+        const validationErrors = validateForm(formData);
+        setErrors(validationErrors);
+        if (isFormValid(validationErrors)) {
           saveForm(formData);
         }
       },
@@ -158,6 +161,7 @@ export default function EventFormModal({
     <ModalPage
       {...props}
       onShow={resetForm}
+      onHide={onCancel}
       options={{ title: props.title || 'Créer', actions: ACTIONS }}
     >
       {saving ? (
@@ -167,7 +171,7 @@ export default function EventFormModal({
       ) : null}
       {!saving ? (
         <>
-          <span>{JSON.stringify(event)}</span>
+          <span>{JSON.stringify(formData)}</span>
           <EventForm
             formData={formData}
             errors={errors}

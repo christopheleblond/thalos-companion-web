@@ -10,8 +10,9 @@ import KeysPage from './app/Keys';
 import './index.css';
 // Importing the Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
-import SettingsPage from './app/Settings';
 import EventDetailsPage from './app/events/EventDetails';
+import GameDayPage from './app/GameDayPage';
+import SettingsPage from './app/Settings';
 
 const router = createBrowserRouter(
   [
@@ -25,7 +26,16 @@ const router = createBrowserRouter(
         },
         {
           path: '/agenda',
-          element: <AgendaPage />,
+          children: [
+            {
+              path: '/agenda/',
+              element: <AgendaPage />,
+            },
+            {
+              path: '/agenda/:dayId',
+              element: <GameDayPage />,
+            },
+          ],
         },
         {
           path: '/keys',

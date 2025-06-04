@@ -61,6 +61,7 @@ export default function EventForm({
       {/* Date ------------------------------------------------------------- */}
       <Form.Group className="mb-3" controlId="eventForm.DateInput">
         <Form.Label>Date</Form.Label>
+
         <Form.Select
           size="lg"
           disabled={disabled}

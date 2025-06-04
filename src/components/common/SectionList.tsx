@@ -8,6 +8,8 @@ type Props<T> = {
   renderSectionHeader: (section: SectionListItem<T>) => ReactNode;
   ListEmptyComponent?: ReactNode;
   renderItem: (item: T) => ReactNode;
+  ListHeaderComponent?: React.ReactElement;
+  ListFooterComponent?: React.ReactElement;
 };
 
 export default function SectionList<T>({
@@ -15,9 +17,12 @@ export default function SectionList<T>({
   keyExtractor,
   renderSectionHeader,
   renderItem,
+  ListHeaderComponent,
+  ListFooterComponent,
 }: Props<T>) {
   return (
     <div>
+      {ListHeaderComponent ? ListHeaderComponent : null}
       {sections.length > 0 &&
         sections.map((section) => (
           <div key={section.title}>
@@ -29,6 +34,7 @@ export default function SectionList<T>({
             </div>
           </div>
         ))}
+      {ListFooterComponent ? ListFooterComponent : null}
     </div>
   );
 }
