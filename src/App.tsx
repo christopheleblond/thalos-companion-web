@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import './App.css';
 import Alerts from './components/common/Alerts';
+import Backdrop from './components/common/Backdrop';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import {
@@ -20,7 +21,11 @@ function App() {
     window.innerHeight - headerHeight - footerHeight
   );
 
+  const [loading, setLoading] = useState(false);
+
   const [appContext, setAppContext] = useState<AppContextProps>({
+    loading: false,
+    setLoading: (loading) => setLoading(loading),
     refreshs: {},
     refresh: (key: string) => {
       setAppContext((prev) => {
@@ -50,6 +55,9 @@ function App() {
       };
       setAlertContext((prev) => ({ ...prev, currentAlert: a }));
     },
+    reset: () => {
+      setAlertContext((prev) => ({ ...prev, currentAlert: undefined }));
+    },
   });
 
   useEffect(() => {
@@ -71,6 +79,8 @@ function App() {
               maxWidth: '1280px',
             }}
           >
+            {loading ? <Backdrop /> : null}
+
             <Header />
 
             <Alerts />

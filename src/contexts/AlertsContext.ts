@@ -17,6 +17,7 @@ export type AlertContextProps = {
     message: string,
     actions: AlertDialogAction[]
   ) => void;
+  reset: () => void;
 };
 
 export type Alert = {
@@ -30,6 +31,7 @@ export type Alert = {
 export const AlertContext = createContext<AlertContextProps>({
   alert: () => {},
   dialog: () => {},
+  reset: () => {},
 });
 
 export const AlertActions = {

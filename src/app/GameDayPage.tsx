@@ -107,7 +107,14 @@ export default function GameDayPage() {
         />
       ) : null}
 
-      <View key="1" style={{ flexDirection: 'row', alignSelf: 'center' }}>
+      <View
+        key="1"
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
         <IconButton
           icon="arrow_left"
           color="gray"

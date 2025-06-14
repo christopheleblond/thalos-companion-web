@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
-import IconButton from '../components/common/IconButton/IconButton';
+import Icon from '../components/common/Icon';
 import SectionList from '../components/common/SectionList';
+import type { StyleSheet } from '../components/common/Types';
 import View from '../components/common/View';
 import GameDayCard from '../components/GameDayCard';
 import { Colors } from '../constants/Colors';
@@ -50,24 +52,20 @@ export default function AgendaPage() {
         sections={sections}
         keyExtractor={({ id }) => id}
         renderSectionHeader={(item) => (
-          <span style={{ alignSelf: 'center' }}>{item.title}</span>
+          <span style={styles.month}>{item.title}</span>
         )}
         ListHeaderComponent={
-          <View style={{ alignItems: 'center' }}>
-            <IconButton
-              color={Colors.gray}
-              icon="arrow_upward"
-              onClick={() => daysBefore()}
-            />
+          <View>
+            <Button variant="secondary" onClick={() => daysBefore()}>
+              <Icon icon="arrow_upward" />
+            </Button>
           </View>
         }
         ListFooterComponent={
-          <View style={{ alignItems: 'center' }}>
-            <IconButton
-              color={Colors.gray}
-              icon="arrow_downward"
-              onClick={() => moreDays()}
-            />
+          <View>
+            <Button variant="secondary" onClick={() => moreDays()}>
+              <Icon icon="arrow_downward" />
+            </Button>
           </View>
         }
         renderItem={(gameDay) => (
@@ -76,6 +74,16 @@ export default function AgendaPage() {
           </div>
         )}
       ></SectionList>
+      <span id="list_bottom"></span>
     </View>
   );
 }
+
+const styles: StyleSheet = {
+  month: {
+    fontSize: 24,
+    color: Colors.gray,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
+};

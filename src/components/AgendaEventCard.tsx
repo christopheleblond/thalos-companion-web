@@ -158,7 +158,8 @@ export default function AgendaEventCard({
           />
           <IconButton
             icon="delete"
-            color={Colors.red}
+            variant="danger"
+            color={Colors.white}
             iconSize={32}
             onClick={() => confirmDeleteEvent()}
           />

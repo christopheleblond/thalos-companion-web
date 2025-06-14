@@ -1,12 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
 import AgendaEventCard from '../components/AgendaEventCard';
-import ActivityIndicator from '../components/common/ActivityIndicator';
 import type { SectionListItem } from '../components/common/SectionList';
 import SectionList from '../components/common/SectionList';
 import type { StyleSheet } from '../components/common/Types';
 import View from '../components/common/View';
-import EventFormModal from '../components/modals/EventFormModal';
 import { Colors } from '../constants/Colors';
 import { Months } from '../constants/Months';
 import { AppContext } from '../contexts/AppContext';
@@ -18,12 +15,10 @@ export default function HomePage() {
   const appContext = useContext(AppContext);
 
   const [sections, setSections] = useState<SectionListItem<AgendaEvent>[]>([]);
-  const [loading, setLoading] = useState(false);
   const needARefresh = appContext.refreshs['home.events'];
-  const [eventFormModalVisible, setEventFormModalVisible] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    appContext.setLoading(true);
     settingsService
       .get()
       .then((prefs) =>
@@ -57,30 +52,18 @@ export default function HomePage() {
             []
           );
         setSections(eventsByMonth);
-        setLoading(false);
+        appContext.setLoading(false);
       })
       .catch((error) => {
         console.error('Fail on findAllEvents', error);
-        setLoading(false);
+        appContext.setLoading(false);
       });
   }, [needARefresh]);
 
   return (
     <View>
-      <EventFormModal
-        show={eventFormModalVisible}
-        onCancel={() => setEventFormModalVisible(false)}
-        onSuccess={(event) => {
-          appContext.refresh(`home.events`);
-          appContext.refresh(`agenda.${event?.day.id}`);
-          setEventFormModalVisible(false);
-        }}
-      />
-
-      {loading ? <ActivityIndicator /> : null}
-      {!loading ? (
+      {!appContext.loading ? (
         <>
-          <Button onClick={() => setEventFormModalVisible(true)}>+</Button>
           <SectionList
             sections={sections}
             keyExtractor={(it) => it.id}

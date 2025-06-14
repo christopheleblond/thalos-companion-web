@@ -7,11 +7,13 @@ import ActivityIndicator from './ActivityIndicator';
 type AlertComponentProps = { alert: Alert };
 
 function AlertComponent({ alert }: AlertComponentProps) {
+  const alertContext = useContext(AlertContext);
   const [show, setShow] = useState(true);
 
   const handleClose = () => {
     setShow(false);
     setProcessing(false);
+    alertContext.reset();
   };
   const [processing, setProcessing] = useState(false);
 
@@ -29,7 +31,7 @@ function AlertComponent({ alert }: AlertComponentProps) {
         {!processing ? (
           alert.actions?.map((action) => (
             <Button
-              variant={action.primary ? 'primary' : 'secondary'}
+              variant={action.primary ? 'danger' : 'secondary'}
               key={action.label}
               onClick={() => {
                 setProcessing(true);

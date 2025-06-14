@@ -45,6 +45,7 @@ export default function ModalPage({
               style={{
                 flexGrow: 1,
                 backgroundColor: action.color ?? Colors.red,
+                borderColor: action.color ?? Colors.red,
                 textTransform: 'uppercase',
               }}
               disabled={action.disabled}

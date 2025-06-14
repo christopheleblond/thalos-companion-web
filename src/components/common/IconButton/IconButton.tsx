@@ -7,6 +7,7 @@ export type Icons = 'settings';
 
 type Props = ButtonProps & {
   icon: string;
+  label?: string;
   color?: string;
   iconSize?: number;
   onClick: () => void;
@@ -16,6 +17,7 @@ export default function IconButton({
   icon,
   color,
   iconSize,
+  label,
   variant,
   onClick,
   ...rest
@@ -42,6 +44,7 @@ export default function IconButton({
       >
         {icon}
       </span>
+      {label ? <span>{label}</span> : null}
     </Button>
   );
 }

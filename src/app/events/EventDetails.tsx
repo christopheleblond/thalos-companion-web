@@ -10,7 +10,6 @@ export default function EventDetailsPage() {
   const { eventId } = useParams();
   const appContext = useContext(AppContext);
   const [event, setEvent] = useState<AgendaEvent | undefined>(undefined);
-  const [loading, setLoading] = useState(false);
   const [eventFormModalVisible, setEventFormModalVisible] = useState(false);
   const [refresh, setRefresh] = useState('');
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ export default function EventDetailsPage() {
     if (eventId === undefined) {
       return;
     }
-    setLoading(true);
+    appContext.setLoading(true);
     agendaService
       .findEventById(eventId)
       .then((e) => {
@@ -36,9 +35,9 @@ export default function EventDetailsPage() {
         } else {
           setEvent(e);
         }
-        setLoading(false);
+        appContext.setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => appContext.setLoading(false));
   }, [eventId, refresh]);
 
   return (
@@ -54,7 +53,7 @@ export default function EventDetailsPage() {
           setEventFormModalVisible(false);
         }}
       />
-      {event && !loading ? (
+      {event && !appContext.loading ? (
         <AgendaEventCard
           event={event}
           complete={true}

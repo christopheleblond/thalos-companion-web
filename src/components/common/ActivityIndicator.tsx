@@ -1,14 +1,16 @@
-import { BounceLoader } from 'react-spinners';
+import { ClipLoader } from 'react-spinners';
+import type { StyleSheet } from './Types';
 
 type Props = {
   color?: string;
   size?: number;
+  full?: boolean;
 };
 
 export default function ActivityIndicator({ color, size }: Props) {
   return (
-    <div>
-      <BounceLoader
+    <div style={styles.container}>
+      <ClipLoader
         color={color ?? '#aa0000'}
         cssOverride={{}}
         loading
@@ -18,3 +20,13 @@ export default function ActivityIndicator({ color, size }: Props) {
     </div>
   );
 }
+
+const styles: StyleSheet = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifySelf: 'center',
+    height: '100%',
+  },
+};

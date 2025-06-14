@@ -171,7 +171,6 @@ export default function EventFormModal({
       ) : null}
       {!saving ? (
         <>
-          <span>{JSON.stringify(formData)}</span>
           <EventForm
             formData={formData}
             errors={errors}
